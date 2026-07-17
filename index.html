@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Matematika SDN 2 Karangmangu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Fredoka:wght@400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #FF6B9D 0%, #C86DD7 40%, #4ECDC4 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 5px solid #FF6B9D;
+            margin-bottom: 25px;
+            width: 100%;
+            max-width: 520px;
+            position: relative;
+        }
+
+        header::before {
+            content: '🎮 📚 ✨';
+            font-size: 28px;
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        header h1 {
+            margin: 10px 0 5px 0;
+            font-size: 28px;
+            color: #FF6B9D;
+            text-shadow: 2px 2px 0px #fff;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 19px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .game-container {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 35px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            border: 6px solid #FF9F1C;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: linear-gradient(to right, #FF6B9D, #FF9F1C, #4ECDC4, #45B8AC);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        .score-box, .question-box-counter {
+            flex: 1;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 17px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .score-box {
+            background: linear-gradient(#E0F7E9, #B2E8D6);
+            color: #1e8449;
+            border: 3px solid #34d399;
+        }
+
+        .question-box-counter {
+            background: linear-gradient(#F3E8FF, #E0C3FC);
+            color: #6b21a8;
+            border: 3px solid #a855f7;
+        }
+
+        .question-box {
+            font-size: 52px;
+            font-weight: 700;
+            color: #1e2937;
+            margin: 30px 0;
+            min-height: 110px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+            border-radius: 25px;
+            border: 4px solid #64748b;
+            box-shadow: inset 0 6px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .question-box:hover {
+            transform: scale(1.03);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 18px;
+            font-size: 28px;
+            border: 4px solid #94a3b8;
+            border-radius: 20px;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            color: #1e2937;
+            background: #f8fafc;
+        }
+
+        input[type="number"]:focus {
+            border-color: #FF9F1C;
+            box-shadow: 0 0 0 5px rgba(255, 159, 28, 0.25);
+            transform: scale(1.02);
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            font-size: 22px;
+            background: linear-gradient(135deg, #FF6B9D, #FF9F1C);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 8px 0 #e05e00;
+            transition: all 0.1s;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #FF9F1C, #FF6B9D);
+            transform: translateY(-3px);
+        }
+
+        button:active {
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #e05e00;
+        }
+
+        .feedback {
+            font-size: 24px;
+            font-weight: 700;
+            min-height: 60px;
+            margin-top: 10px;
+            padding: 15px 20px;
+            border-radius: 20px;
+            transition: all 0.4s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .correct {
+            color: #166534;
+            background: linear-gradient(#dcfce7, #bbf7d0);
+            border: 3px solid #4ade80;
+            animation: pop 0.4s;
+        }
+
+        .incorrect {
+            color: #991b1b;
+            background: linear-gradient(#fee2e2, #fecaca);
+            border: 3px solid #f87171;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 35px;
+            font-size: 15px;
+            color: #334155;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 14px 25px;
+            border-radius: 40px;
+            font-weight: 600;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            max-width: 480px;
+            width: 100%;
+        }
+
+        .emoji-decor {
+            font-size: 22px;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🎲 Game Matematika Seru 🎲</h1>
+    <h2>SDN 2 Karangmangu</h2>
+</header>
+
+<div class="game-container">
+    <div class="score-board">
+        <div class="score-box">⭐ Skor: <span id="score">0</span></div>
+        <div class="question-box-counter">📝 Soal: <span id="question-count">1</span></div>
+    </div>
+
+    <div class="question-box" id="question">--</div>
+
+    <div class="input-group">
+        <input type="number" id="answer-input" placeholder="Masukkan jawabanmu di sini..." autocomplete="off">
+        <button id="submit-btn">✅ Jawab Sekarang!</button>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+</div>
+
+<footer>
+    <span class="emoji-decor">❤️</span> 
+    Dibuat dengan ❤️ oleh <strong>Doni Yan Ariyanto</strong> 
+    <span class="emoji-decor">📚</span>
+</footer>
+
+<script>
+    let score = 0;
+    let questionCounter = 1;
+    let currentAnswer = 0;
+    let isWaiting = false;
+
+    const questionEl = document.getElementById('question');
+    const answerInput = document.getElementById('answer-input');
+    const submitBtn = document.getElementById('submit-btn');
+    const feedbackEl = document.getElementById('feedback');
+    const scoreEl = document.getElementById('score');
+    const questionCountEl = document.getElementById('question-count');
+
+    function generateQuestion() {
+        const type = Math.floor(Math.random() * 3); // 0=Perkalian 2 digit, 1=Pangkat 2, 2=Akar Kuadrat
+        
+        let num1, num2;
+
+        switch(type) {
+            case 0: // Perkalian 2 digit
+                num1 = Math.floor(Math.random() * 80) + 12; // 12-91
+                num2 = Math.floor(Math.random() * 70) + 11; // 11-80
+                questionEl.innerHTML = `${num1} × ${num2}`;
+                currentAnswer = num1 * num2;
+                break;
+                
+            case 1: // Pangkat 2
+                num1 = Math.floor(Math.random() * 22) + 3; // 3 - 24
+                questionEl.innerHTML = `${num1}<sup>²</sup>`;
+                currentAnswer = num1 * num1;
+                break;
+                
+            case 2: // Akar Kuadrat
+                num1 = Math.floor(Math.random() * 22) + 3; // 3 - 24
+                let square = num1 * num1;
+                questionEl.innerHTML = `√${square}`;
+                currentAnswer = num1;
+                break;
+        }
+        
+        answerInput.value = '';
+        feedbackEl.innerHTML = '';
+        feedbackEl.className = "feedback";
+        answerInput.focus();
+        isWaiting = false;
+    }
+
+    function checkAnswer() {
+        if (isWaiting || answerInput.value.trim() === '') return;
+        
+        isWaiting = true;
+        const userAnswer = parseInt(answerInput.value, 10);
+
+        if (userAnswer === currentAnswer) {
+            feedbackEl.innerHTML = "🎉 Benar Sekali! Hebat! 🎉";
+            feedbackEl.className = "feedback correct";
+            score += 20;
+            scoreEl.textContent = score;
+        } else {
+            feedbackEl.innerHTML = `❌ Jawaban benar: <strong>${currentAnswer}</strong>`;
+            feedbackEl.className = "feedback incorrect";
+        }
+
+        setTimeout(() => {
+            questionCounter++;
+            questionCountEl.textContent = questionCounter;
+            generateQuestion();
+        }, 1700);
+    }
+
+    submitBtn.addEventListener('click', checkAnswer);
+
+    answerInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            checkAnswer();
+        }
+    });
+
+    // Mulai game
+    generateQuestion();
+</script>
+
+</body>
+</html>
